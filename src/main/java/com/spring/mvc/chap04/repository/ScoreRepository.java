@@ -12,6 +12,8 @@ public interface ScoreRepository {
     //성적
     List<Score> findAll();
 
+    List<Score> findAll(String sort);
+
     //성적 정보 등록
     boolean save(Score score);
 

@@ -2,22 +2,24 @@ package com.spring.mvc.chap04.repository;
 
 import com.spring.mvc.chap04.entity.Grade;
 import com.spring.mvc.chap04.entity.Score;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
-@Component
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
+
+@Repository
 public class ScoreRepositoryImpl implements ScoreRepository {
 
     // 인메모리 저장공간 해시맵
     // key: 학번, value: 성적정보
     private static final Map<Integer, Score> scoreMap;
-    private static int  seq;
+
+    // 학번을 생성할 일련번호
+    private static int seq;
+
     // 객체 초기화는 직접하는 거보다 주입받거나 생성자를 통해 처리하는게 좋다.
     static {
         scoreMap = new HashMap<>();
@@ -33,8 +35,9 @@ public class ScoreRepositoryImpl implements ScoreRepository {
 
     @Override
     public List<Score> findAll() {
+        // 맵에있는 모든 성적정보를 꺼내서 리스트에 담아라
 //        List<Score> temp = new ArrayList<>();
-//        for(Integer key : scoreMap.keySet()){
+//        for (Integer key : scoreMap.keySet()) {
 //            Score score = scoreMap.get(key);
 //            temp.add(score);
 //        }
@@ -44,26 +47,46 @@ public class ScoreRepositoryImpl implements ScoreRepository {
                 .sorted(comparing(Score::getStuNum))
                 .collect(toList())
                 ;
-
     }
 
     @Override
     public List<Score> findAll(String sort) {
-        return null;
+        Comparator<Score> comparing = comparing(Score::getStuNum);
+
+        switch (sort) {
+            case "num":
+                comparing = comparing(Score::getStuNum);
+                break;
+            case "name":
+                comparing = comparing(Score::getName);
+                break;
+            case "avg":
+                comparing = comparing(Score::getAverage).reversed();
+                break;
+        }
+
+        return scoreMap.values().stream()
+                .sorted(comparing) // 정렬
+                .collect(Collectors.toList())
+                ;
     }
 
     @Override
     public boolean save(Score score) {
+        // 학번 넣어주기
         score.setStuNum(++seq);
-        if(scoreMap.containsKey(score.getStuNum())) return false;
 
-        scoreMap.put(score.getStuNum(),score);
-        return false;
+        // 중복된 학번을 전달할 경우
+        if (scoreMap.containsKey(score.getStuNum())) return false;
+
+        scoreMap.put(score.getStuNum(), score);
+        return true;
     }
 
     @Override
     public boolean delete(int stuNum) {
-        if(!scoreMap.containsKey(stuNum)) return false;
+        // 없는 학번을 전달받을 경우
+        if (!scoreMap.containsKey(stuNum)) return false;
 
         scoreMap.remove(stuNum);
         return true;
