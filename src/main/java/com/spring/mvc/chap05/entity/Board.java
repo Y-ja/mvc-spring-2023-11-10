@@ -1,5 +1,6 @@
 package com.spring.mvc.chap05.entity;
 
+import com.spring.mvc.chap05.dto.BoardListResponseDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -24,5 +25,13 @@ public class Board {
     }
 
 
+    public Board(BoardListResponseDTO dto) {
+
+
+    }
+
+    public void upViewCount() {
+        this.viewCount++;
+    }
 }
 
