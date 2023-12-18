@@ -27,7 +27,7 @@ public class ControllerV2 {
         String name = "짹짹이";
         List<String> hobbyList
                 = List.of("전깃줄 앉아있기", "좁쌀주워먹기", "하하호호"
-                , "룰루랄라", "멍때리기");
+        , "룰루랄라", "멍때리기");
 
         model.addAttribute("userName", name);
         model.addAttribute("hobbies", hobbyList);
@@ -35,19 +35,21 @@ public class ControllerV2 {
         return "chap02/hobbies";
     }
 
-    //ModelAndView 사용
+    // == 2. ModelAndView 객체 사용
     @GetMapping("/hobbies2")
     public ModelAndView hobbies2() {
         System.out.println("취미2 안녕~");
-
+        // jsp로 보낼 데이터
         String name = "냥냥이";
-        List<String> hlist = List.of("술래잡기", "고무줄 놀이", "말뚝밖기");
+        List<String> hList = List.of("사마귀랑 놀기", "낮잠자기");
 
+        // jsp로 보낼 데이터를 ModelAndView에 담기
         ModelAndView mv = new ModelAndView();
-        mv.addObject("userName",name);
-        mv.addObject("hobbies",hlist);
+        mv.addObject("userName", name);
+        mv.addObject("hobbies", hList);
 
-        mv.setViewName("chap02/hobbies2");
+        // view의 데이터를 따로 담아줌
+        mv.setViewName("chap02/hobbies");
 
         return mv;
     }

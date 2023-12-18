@@ -40,16 +40,23 @@
             transform: translateY(200px);
         }
 
-        a.list-btn {
+        .btn-group a {
             display: block;
             width: fit-content;
             text-decoration: none;
-            background: rgb(83, 189, 83);
             color: white;
             box-shadow: 1px 1px 2px rgb(146, 228, 146);
             border-radius: 5px;
             border: 1px solid white;
             padding: 5px;
+            margin: 0 5px;
+        }
+        a.list-btn {
+            background: rgb(83, 189, 83);
+        }
+        a.mod-btn {
+            background: rgb(228, 248, 49);
+            color: #333;
         }
     </style>
 
@@ -70,6 +77,7 @@
         </ul>
         <div class="btn-group">
             <a class="list-btn" href="/score/list">목록</a>
+            <a class="mod-btn" href="/score/modify?stuNum=${s.stuNum}">수정</a>
         </div>
     </section>
 

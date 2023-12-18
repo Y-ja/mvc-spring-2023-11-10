@@ -19,7 +19,7 @@ package com.spring.mvc.chap04.controller;
     - /score/detail  :   GET
  */
 
-import com.spring.mvc.chap04.dto.ScoreRequesDTO;
+import com.spring.mvc.chap04.dto.ScoreRequestDTO;
 import com.spring.mvc.chap04.dto.ScoreResponseDTO;
 import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.repository.ScoreRepository;
@@ -70,7 +70,7 @@ public class ScoreController {
 
     //2. 성적정보를 데이터베이스에 저장하는 요청
     @PostMapping("/register")
-    public String register(ScoreRequesDTO score) {
+    public String register(ScoreRequestDTO score) {
         System.out.println("/score/register POST !!");
         System.out.println("score = " + score);
 
@@ -134,7 +134,7 @@ public class ScoreController {
     // 6. 수정 처리 요청
     // /score/modify : POST
     @PostMapping("/modify")
-    public String modify(int stuNum, ScoreRequesDTO dto) {
+    public String modify(int stuNum, ScoreRequestDTO dto) {
         System.out.println("/score/modify POST !!");
         service.updateScore(stuNum, dto);
 

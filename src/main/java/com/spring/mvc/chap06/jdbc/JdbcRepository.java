@@ -1,9 +1,7 @@
 package com.spring.mvc.chap06.jdbc;
-import com.spring.mvc.chap06.entity.Person;
-import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.springframework.stereotype.Repository;
 
+import com.spring.mvc.chap06.entity.Person;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,10 +11,10 @@ import java.util.List;
 public class JdbcRepository {
 
     // db 연결 설정정보
-    private String url = "jdbc:mariadb://localhost:3307/spring"; // 데이터베이스 URL
+    private String url = "jdbc:mariadb://localhost:3306/spring"; // 데이터베이스 URL
     private String username = "root";
     private String password = "mariadb";
-    private JdbcRepository repository;
+
 
     // JDBC 드라이버 로딩
     public JdbcRepository() {
@@ -79,12 +77,8 @@ public class JdbcRepository {
             }
         }
     }
-     @Test
-     @DisplayName("사람 객체정보를 데이터베이스에 삽입")
-    void saveTest(){
-        Person p = new Person("1","망둥어",10);
-        repository.save(p);
-     }
+
+
 
     // UPDATE 기능
     public void update(Person person) {
@@ -133,17 +127,9 @@ public class JdbcRepository {
             }
         }
     }
-    @Test
-    @DisplayName("사람 객체정보를 데이터베이스에 수정")
-    void updateTest(){
-        String id = "1";
-        String newName = "개굴이";
-        int newAge = 15;
 
-        Person p = new Person("1","망둥어",10);
-        repository.save(p);
-    }
-    //DELETE 기능
+
+    // DELETE 기능
     public void delete(String id) {
 
         Connection conn = null;
@@ -187,13 +173,6 @@ public class JdbcRepository {
             }
         }
     }
-     @Test
-     @DisplayName("회원번호가 1인 회원 삭제")
-     void delete(){
-        String id = "1";
-        repository.delete(id);
-     }
-
 
     // 전체 회원 조회
     public List<Person> findAll() {
@@ -215,14 +194,17 @@ public class JdbcRepository {
             ResultSet rs = pstmt.executeQuery();
 
             // 6. 결과집합 조작하기
-            rs.next(); // 커서를 한행씩 이동시키는 기능
+            while (rs.next()) { // 커서를 한행씩 이동시키는 기능
 
-            // 커서에 위치한 데이터 레코드 읽기
-            String personName = rs.getString("person_name");
-            int personAge = rs.getInt("person_age");
+                // 커서에 위치한 데이터 레코드 읽기
+                String id = rs.getString("id");
+                String personName = rs.getString("person_name");
+                int personAge = rs.getInt("person_age");
 
-            System.out.println("personName = " + personName);
-            System.out.println("personAge = " + personAge);
+                Person p = new Person(id, personName, personAge);
+
+                people.add(p);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,14 +212,7 @@ public class JdbcRepository {
 
         return people;
     }
-    @Test
-    @DisplayName("랜덤 회원 아이드를 가진을 10명 등록")
-    void bulkInserTest(){
-        for (int i = 0; i < 10; i++) {
-            Person p = new Person("" + Math.random(),"랄라라"+i,i+10);
-            repository.save(p);
-        }
-    }
+
     // 단일 조회 (아이디로 조회)
     public Person findOne(String id) {
         try {
@@ -271,5 +246,7 @@ public class JdbcRepository {
         }
         return null;
     }
+
+
 
 }

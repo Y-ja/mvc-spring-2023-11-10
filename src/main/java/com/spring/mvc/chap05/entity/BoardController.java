@@ -1,5 +1,7 @@
 package com.spring.mvc.chap05.entity;
 
+import com.spring.mvc.chap05.common.Page;
+import com.spring.mvc.chap05.common.PageMaker;
 import com.spring.mvc.chap05.dto.BoardListResponseDTO;
 import com.spring.mvc.chap05.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -22,7 +25,9 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model){
         System.out.println("/board/list : GET!");
-        List<BoardListResponseDTO> doList = boardService.getList();
+        Page Page = null;
+        List<BoardListResponseDTO> doList = boardService.getList(Page);
+        PageMaker maker = new PageMaker(Page, boardService.getCount());
         model.addAttribute("bList",doList);
         return "chap05/list";
     }
@@ -34,7 +39,7 @@ public class BoardController {
     }
     // 3. 글쓰기 등록요청 (/board/write : POST)
     @PostMapping("/write")
-    public String write(BoardListResponseDTO dto){
+    public String write(BoardListResponseDTO dto) throws SQLException {
         System.out.println("/board/write : POST! -" + dto);
         boardService.register(dto);
         return "chap05/write";

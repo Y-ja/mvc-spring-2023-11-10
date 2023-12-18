@@ -22,4 +22,3 @@ public class BoardDetailResponseDTO {
         this.date = BoardListResponseDTO.makePrettierDateString(board.getRegDateTime());
     }
 }
-

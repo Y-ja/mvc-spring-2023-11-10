@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mvc.chap05.repository.ReplyMapper">
+
+    <insert id="save"></insert>
+
+    <update id="modify"></update>
+
+    <delete id="delete"></delete>
+
+    <select id="findOne" resultType=""></select>
+
+    <select id="findAll" resultType=""></select>
+
+    <select id="count" resultType="int"></select>
+
+</mapper>

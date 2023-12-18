@@ -114,7 +114,7 @@
                 <li>
                     # 학번: ${s.stuNum},
                     이름: <a href="/score/detail?stuNum=${s.stuNum}">${s.maskingName}</a>,
-                    총점: ${s.total}점, 평균: ${s.average}점, 학점: ${s.grade}
+                    평균: ${s.average}점, 학점: ${s.grade}
                     <a class="del-btn" href="/score/remove/${s.stuNum}">삭제</a>
                 </li>
             </c:forEach>
@@ -128,29 +128,29 @@
 </div>
 
 <script>
-    const $ul = document.querySelector('.score-list');
+  const $ul = document.querySelector('.score-list');
 
-    $ul.addEventListener('click', e => {
-        if (!e.target.matches('a.del-btn')) return;
+  $ul.addEventListener('click', e => {
+    if (!e.target.matches('a.del-btn')) return;
 
-        e.preventDefault();
-        //console.log('클릭이벤트 발동!');
+    e.preventDefault();
+    //console.log('클릭이벤트 발동!');
 
-        if (confirm('정말로 삭제하시겠습니까?')) {
-            //삭제 진행
-            window.location.href = e.target.getAttribute('href');
-        } else {
-            //삭제 취소
-            return;
-        }
+    if (confirm('정말로 삭제하시겠습니까?')) {
+      //삭제 진행
+      window.location.href = e.target.getAttribute('href');
+    } else {
+      //삭제 취소
+      return;
+    }
 
-    });
+  });
 
-    //홈화면으로 버튼 이벤트
-    const $homeBtn = document.getElementById('go-home');
-    $homeBtn.onclick = e => {
-        window.location.href = '/'; // GET요청
-    };
+  //홈화면으로 버튼 이벤트
+  const $homeBtn = document.getElementById('go-home');
+  $homeBtn.onclick = e => {
+    window.location.href = '/'; // GET요청
+  };
 </script>
 
 </body>

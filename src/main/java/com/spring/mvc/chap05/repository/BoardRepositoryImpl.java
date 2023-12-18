@@ -1,22 +1,33 @@
 package com.spring.mvc.chap05.repository;
 
 import com.spring.mvc.chap05.entity.Board;
-import com.spring.mvc.chap05.entity.BoardController;
-import org.springframework.stereotype.Repository;
-import java.util.*;
+
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-@Repository
-public class BoardRepositoryImpl implements  BoardRepository{
+//@Repository
+public class BoardRepositoryImpl implements BoardRepository {
+
     private static final Map<Integer, Board> boardMap;
-    private static int sequence = 0;
+
+    // 글번호 자동으로 증가시키기 위한 공유필드
+    private static int sequence;
 
     static {
         boardMap = new HashMap<>();
-       Board b1 =  new Board(++sequence,"오늘 장보러 갈건데 ㅋ", "뭐 살지 추천좀 ㅋ");
-       Board b2 =  new Board(++sequence,"해피송", "뭐 살지 추천좀 ㅋ");
-       Board b3 =  new Board(++sequence,"해피해피해피", "뭐 살지 추천좀 ㅋ");
+
+        Board b1 = new Board(++sequence, "오늘 장보러 갈건데ㅋ", "뭐 살지 추천좀 해주세요~~");
+        Board b2 = new Board(++sequence, "포켓몬빵 유행 식음?", "편의점에 엄청 ㅁㄴㅎ던뎅 ㄹㄴㅁ아ㅗㄹㄴㅁ오ㅓ라ㅣㅓㅇㅁㄴㄹ와ㅓㄴㅁ");
+        Board b3 = new Board(++sequence, "이마트가 낫냐? 홈플러스가 낳냐??", "마춤뻡이 왜그러냐?????");
+
+        boardMap.put(b1.getBoardNo(), b1);
+        boardMap.put(b2.getBoardNo(), b2);
+        boardMap.put(b3.getBoardNo(), b3);
     }
+
     @Override
     public List<Board> findAll() {
         return boardMap.values()
@@ -43,4 +54,13 @@ public class BoardRepositoryImpl implements  BoardRepository{
         return true;
     }
 
+    @Override
+    public void updateViewCount(int boardNo) {
+        BoardRepository.super.updateViewCount(boardNo);
+    }
+
+    @Override
+    public int count() {
+        return 0;
+    }
 }
