@@ -45,9 +45,4 @@ public class BoardSpringRepository implements BoardRepository {
                 "WHERE board_no = ?";
         template.update(sql, boardNo);
     }
-
-    @Override
-    public int count() {
-        return 0;
-    }
 }

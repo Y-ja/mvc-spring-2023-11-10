@@ -1,13 +1,17 @@
 package com.spring.mvc;
 
-import jdk.internal.net.http.common.Log;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class LogExample {
+
     /*
         - 로그: 발생시간, 로그 레벨, 파일저장
         - 로그 라이브러리: logback, log4j, slf4j
+        - 로그 설정 : application.properties
 
         - 로그 레벨
         1. trace : 애플리케이션의 실행흐름 세부정보, 디버깅 목적
@@ -20,8 +24,14 @@ public class LogExample {
         5. error : 예외가 발생하거나 기능이 실패했을 때 심각한 문제상황
         6. fatal : 치명적인 오류 시스템이 지속될 수 없는 상황, 즉각 조치가 필요한 경우
      */
-    public void showLog(){
-        Log log = null;
-        log.trace();
+
+    public void showLog() {
+
+        log.trace("hello trace!");
+        log.debug("hello debug!");
+        log.info("hello info!");
+        log.warn("hello warn!");
+        log.error("hello error!");
     }
+
 }

@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.repository;
 
 import com.spring.mvc.chap05.entity.Board;
+import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,15 +53,5 @@ public class BoardRepositoryImpl implements BoardRepository {
     public boolean deleteByNo(int boardNo) {
         boardMap.remove(boardNo);
         return true;
-    }
-
-    @Override
-    public void updateViewCount(int boardNo) {
-        BoardRepository.super.updateViewCount(boardNo);
-    }
-
-    @Override
-    public int count() {
-        return 0;
     }
 }

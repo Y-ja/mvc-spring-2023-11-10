@@ -1,7 +1,7 @@
 package com.spring.mvc.chap06.spring_jdbc;
 
 import com.spring.mvc.chap06.entity.Person;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

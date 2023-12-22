@@ -1,5 +1,11 @@
 package com.spring.mvc.chap05.common;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter @ToString
+@EqualsAndHashCode
 public class PageMaker {
 
     // 페이지 첫번호랑 끝번호 (1~10, 11~20)
@@ -13,13 +19,14 @@ public class PageMaker {
 
     // 총 게시물 수
     private int totalCount;
-    public PageMaker(Page page , int totalCount){
+
+    public PageMaker(Page page, int totalCount)  {
         this.page = page;
         this.totalCount = totalCount;
 
         makePageInfo();
-
     }
+
     // 한 화면에 보여질 페이지 수
     private static final int PAGE_COUNT = 10;
 

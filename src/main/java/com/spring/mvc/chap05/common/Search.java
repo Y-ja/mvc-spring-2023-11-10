@@ -7,13 +7,13 @@ import lombok.ToString;
 
 @Setter @Getter @ToString
 @EqualsAndHashCode
-public class Search extends Page{
-    //검색 조건
+public class Search extends Page {
+
+    // 검색 조건, 검색어
     private String type, keyword;
 
-    public Search(){
+    public Search() {
         this.type = "";
         this.keyword = "";
     }
-
 }
