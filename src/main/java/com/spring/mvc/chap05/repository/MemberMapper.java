@@ -1,7 +1,9 @@
 package com.spring.mvc.chap05.repository;
 
+import com.spring.mvc.chap05.dto.request.AutoLoginDTO;
 import com.spring.mvc.chap05.entity.Member;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MemberMapper {
@@ -18,5 +20,10 @@ public interface MemberMapper {
      * @param keyword - 중복 검사 입력값 (ex: abc@gmail.com...)
      * @return 중복이면 true, 중복이 아니면 false
      */
-    boolean isDuplicate(String type, String keyword);
+    boolean isDuplicate(@Param("type") String type, @Param("keyword") String keyword);
+
+    //자동로그인 세션키 만료시간 업데이트
+    void  saveAutoLogin(AutoLoginDTO dto);
+
+    Member findMemberByCookie(String sessionId);
 }

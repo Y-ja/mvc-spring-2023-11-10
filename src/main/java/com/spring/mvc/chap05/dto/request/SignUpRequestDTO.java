@@ -8,7 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Getter @ToString
+@Setter @Getter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,13 +27,14 @@ public class SignUpRequestDTO {
     @Email
     private String email;
 
-
-    public Member toEntity(PasswordEncoder encoder){
-        return Member .builder()
+    // 엔터티로 변환하는 유틸메서드
+    public Member toEntity(PasswordEncoder encoder) {
+        return Member.builder()
                 .account(account)
                 .password(encoder.encode(password))
                 .email(email)
                 .name(name)
                 .build();
     }
+
 }

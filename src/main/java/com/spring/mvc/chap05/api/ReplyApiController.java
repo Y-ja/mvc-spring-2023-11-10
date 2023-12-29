@@ -3,7 +3,6 @@ package com.spring.mvc.chap05.api;
 import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.dto.request.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
-import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *
@@ -65,7 +64,8 @@ public class ReplyApiController {
     public ResponseEntity<?> create(
             @Validated @RequestBody ReplyPostRequestDTO dto
             , BindingResult result  // 검증 결과 메시지를 가진 객체
-    ) {
+            , HttpSession session
+            ) {
 
         // 입력값 검증에 걸리면 400번 코드와 함께 메시지를 클라이언트에 전송
         if (result.hasErrors()) {
@@ -78,7 +78,7 @@ public class ReplyApiController {
         log.debug("request parameter : {}", dto);
 
         try {
-            ReplyListResponseDTO responseDTO = replyService.register(dto);
+            ReplyListResponseDTO responseDTO = replyService.register(dto,session);
             return ResponseEntity.ok().body(responseDTO);
         } catch (SQLException e) {
             log.warn("500 status code response!! caused by: {}", e.getMessage());

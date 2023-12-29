@@ -31,5 +31,16 @@
         </if>
 
     </select>
-
+    
+    <update id="saveAutoLogin">
+        UPDATE tbl_member
+        SET session_id = #{}, limit_time = #{limitTime}
+        .WHERE account = #{UPDATE}
+    </update>
+    
+    <select id="findMemberByCookie" resultType="member">
+        SELECT
+          account, name , email , auth , limit_time
+        FROM
+    </select>
 </mapper>
