@@ -6,15 +6,15 @@
 
     <insert id="save">
         INSERT INTO tbl_member
-            (account, password, name, email)
+        (account, password, name, email, profile_image)
         VALUES
-            (#{account}, #{password}, #{name}, #{email})
+        (#{account}, #{password}, #{name}, #{email}, #{profileImage})
     </insert>
 
     <select id="findMember" resultType="member">
         SELECT
-            account, password, name,
-            email, auth, reg_date
+        account, password, name,
+        email, auth, reg_date, profile_image
         FROM tbl_member
         WHERE account = #{account}
     </select>
@@ -31,16 +31,19 @@
         </if>
 
     </select>
-    
+
     <update id="saveAutoLogin">
         UPDATE tbl_member
-        SET session_id = #{}, limit_time = #{limitTime}
-        .WHERE account = #{UPDATE}
+        SET session_id = #{sessionId}, limit_time = #{limitTime}
+        WHERE account = #{account}
     </update>
-    
+
     <select id="findMemberByCookie" resultType="member">
         SELECT
-          account, name , email , auth , limit_time
-        FROM
+        account, name, email, auth, limit_time
+        FROM tbl_member
+        WHERE session_id = #{sessionId}
     </select>
+
+
 </mapper>

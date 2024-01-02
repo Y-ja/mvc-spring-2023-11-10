@@ -1,5 +1,6 @@
 package com.spring.mvc.interceptor;
 
+
 import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.repository.MemberMapper;
 import com.spring.mvc.chap05.service.MemberService;
@@ -46,4 +47,3 @@ public class AutoLoginInterceptor implements HandlerInterceptor {
 
     }
 }
-

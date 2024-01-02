@@ -6,14 +6,15 @@ import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
 import com.spring.mvc.util.LoginUtils;
+import com.spring.mvc.util.upload.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -21,14 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static com.spring.mvc.util.LoginUtils.LOGIN_KEY;
-import static com.spring.mvc.util.LoginUtils.isLogin;
+import static com.spring.mvc.util.LoginUtils.*;
 
 @Controller
 @RequestMapping("/members")
 @Slf4j
 @RequiredArgsConstructor
 public class MemberController {
+
+    @Value("${file.upload.root-path}")
+    private String rootPath;
 
     private final MemberService memberService;
 
@@ -54,8 +57,15 @@ public class MemberController {
     public String signUp(SignUpRequestDTO dto) {
         log.info("/member/sign-up POST !");
         log.debug("parameter: {}", dto);
-        boolean flag = memberService.join(dto);
+        log.debug("attached file name: {}", dto.getProfileImage().getOriginalFilename());
+
+        // 서버에 파일 업로드
+        String savePath = FileUtil.uploadFile(dto.getProfileImage(), rootPath);
+        log.debug("save-path: {}", savePath);
+
+         boolean flag = memberService.join(dto, savePath);
         return flag ? "redirect:/board/list" : "redirect:/members/sign-up";
+
     }
 
     // 로그인 양식 요청
@@ -85,7 +95,7 @@ public class MemberController {
         log.info("/members/sign-in POST !");
         log.debug("parameter: {}", dto);
 
-        LoginResult result = memberService.authenticate(dto,null,null);
+        LoginResult result = memberService.authenticate(dto, request.getSession(), response);
         log.debug("login result: {}", result);
 
         ra.addFlashAttribute("msg", result);
@@ -118,26 +128,32 @@ public class MemberController {
     // 로그아웃 요청 처리
     @GetMapping("/sign-out")
     public String signOut(
-             HttpServletRequest request, HttpServletResponse response
-//            HttpSession session
+            HttpServletRequest request
+            , HttpServletResponse response
+            // HttpSession session
     ) {
         // 세션 얻기
         HttpSession session = request.getSession();
 
-        //로그인 상태
-        if(isLogin(session)){
+        // 로그인 상태인지 확인
+        if (isLogin(session)) {
+
+            // 자동 로그인 상태인지도 확인
+            if (isAutoLogin(request)) {
+                // 쿠키를 삭제해주고 디비데이터도 원래대로 돌려놓는다.
+                memberService.autoLoginClear(request, response);
+            }
+
+            // 세션에서 로그인 정보 기록 삭제
             session.removeAttribute(LOGIN_KEY);
+
+            // 세션을 초기화(RESET)
             session.invalidate();
+
             return "redirect:/";
         }
+        return "redirect:/members/sign-in";
 
-        // 세션에서 로그인 정보 기록 삭제
-        session.removeAttribute(LoginUtils.LOGIN_KEY);
-
-        // 세션을 초기화(RESET)
-        session.invalidate();
-
-        return "redirect:/";
     }
 
 }

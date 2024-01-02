@@ -22,8 +22,11 @@ public interface MemberMapper {
      */
     boolean isDuplicate(@Param("type") String type, @Param("keyword") String keyword);
 
-    //자동로그인 세션키 만료시간 업데이트
-    void  saveAutoLogin(AutoLoginDTO dto);
+    // 자동 로그인 세션키, 만료시간 업데이트
+    void saveAutoLogin(AutoLoginDTO dto);
 
+    // 쿠키값(세션아이디)으로 회원 정보를 조회
     Member findMemberByCookie(String sessionId);
+
+
 }

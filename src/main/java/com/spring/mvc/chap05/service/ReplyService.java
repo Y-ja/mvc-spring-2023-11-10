@@ -8,6 +8,7 @@ import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
 import com.spring.mvc.chap05.entity.Reply;
 import com.spring.mvc.chap05.repository.ReplyMapper;
+import com.spring.mvc.util.LoginUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.spring.mvc.util.LoginUtils.getCurrentLoginMemberAccount;
+import static com.spring.mvc.util.LoginUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -48,13 +49,13 @@ public class ReplyService {
     }
 
     // 댓글 등록 서비스
-    public ReplyListResponseDTO register(ReplyPostRequestDTO dto,HttpSession session) throws SQLException {
+    public ReplyListResponseDTO register(ReplyPostRequestDTO dto, HttpSession session) throws SQLException {
         log.debug("register services execute!!!");
 
         // dto를 entity로 변환
-        Reply reply  = dto.toEntity();
-
+        Reply reply = dto.toEntity();
         reply.setAccount(getCurrentLoginMemberAccount(session));
+
         boolean flag = replyMapper.save(reply);
 
         if (!flag) {

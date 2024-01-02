@@ -30,6 +30,7 @@ public class Member {
     private String email;
     private Auth auth;
     private LocalDateTime regDate;
-    private  String sessionid;
-    private  LocalDateTime limitTime;
+    private String sessionId;
+    private LocalDateTime limitTime;
+    private String profileImage; // 프로필 사진 이미지 경로
 }

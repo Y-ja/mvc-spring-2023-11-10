@@ -1,5 +1,6 @@
 package com.spring.mvc.chap05.dto.request;
 
+
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,7 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class AutoLoginDTO {
-    private  String sessionId;
+
+    private String sessionId;
     private LocalDateTime limitTime;
     private String account;
+
 }

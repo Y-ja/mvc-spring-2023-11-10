@@ -13,6 +13,31 @@
             margin-top: 200px;
             margin-bottom: 200px;
         }
+
+        .profile {
+            margin-bottom: 70px;
+            text-align: center;
+        }
+        .profile label {
+            font-weight: 700;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: rgb(140, 217, 248);
+        }
+        .profile .thumbnail-box {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 30px auto 10px;
+            cursor: pointer;
+        }
+
+        .profile .thumbnail-box img {
+            width: 200px;
+            height: 200px;
+        }
+
     </style>
 
 </head>
@@ -31,8 +56,24 @@
 
 
                     <form action="/members/sign-up" name="signup" id="signUpForm" method="post"
-                          style="margin-bottom: 0;">
+                          style="margin-bottom: 0;" enctype="multipart/form-data">
 
+                        <div class="profile">
+                            <div class="thumbnail-box">
+                                <img src="/assets/img/image-add.png" alt="프로필 썸네일">
+                            </div>
+
+                            <label>프로필 이미지 추가</label>
+
+                            <input
+                                    type="file"
+                                    id="profile-img"
+                                    accept="image/*"
+                                    style="display: none;"
+                                    name="profileImage"
+
+                            >
+                        </div>
 
                         <table style="cellpadding: 0; cellspacing: 0; margin: 0 auto; width: 100%">
                             <tr>
@@ -324,8 +365,31 @@
             alert('입력란을 다시 확인하세요!');
         }
     };
+    //프로필 관련 업로드 스크립트
+    const $profile = document.querySelector('.profile');
+    const  $fileInput = document.getElementById('profile-img');
+
+    $profile.onclick = e =>{
+        $fileInput.click();
+    };
+
+    //프로필 사진 선택시 썸네일 보여주기
+    $fileInput.onchange = e =>{
+        const fileData = $fileInput.files[0];
+        console.log(fileData);
+    };
+
+    //첨부파일
+    const  reader = new FileReader();
+    //파일에 바이트데이터 읽음
+    reader.readAsDataURL(fileData);
+    //첨부파일 등록 순간 이미지 태그
+    reader.onloadend = e =>{
+        const $img = document.querySelector('.thumbnail-box img');
+        $img.setAttribute('src',reader.result);
+    };
+
 
 </script>
 </body>
 </html>
-
