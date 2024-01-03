@@ -116,6 +116,7 @@ public class MemberService {
                 .account(member.getAccount())
                 .email(member.getEmail())
                 .nickName(member.getName())
+                .profile(member.getProfileImage())
                 .auth(member.getAuth().name())
                 .build();
 

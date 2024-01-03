@@ -17,6 +17,7 @@ public class ReplyDetailResponseDTO {
     private long rno;
     private String text;
     private String writer;
+    private String profile; //<--프로필 경로
 
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH:mm")
     private LocalDateTime regDate;
@@ -30,6 +31,7 @@ public class ReplyDetailResponseDTO {
         this.writer = reply.getReplyWriter();
         this.regDate = reply.getReplyDate();
         this.account = reply.getAccount();
+        this.profile = reply.getProfileImage();
     }
 
 }
